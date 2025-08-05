@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /mentions-legales.html
+Disallow: /politique-confidentialite.html
+Disallow: /accessibilite.html
+Disallow: /cookies.html
+
+Sitemap: https://votre-domaine.com/sitemap.xml

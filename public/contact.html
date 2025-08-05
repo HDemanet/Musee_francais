@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contactez le Musée de la 1ère armée française. Formulaire de contact, informations pratiques et demandes de visites de groupe.">
+    <meta name="keywords" content="contact musée, formulaire contact, visite groupe, cortil-noirmont">
+    <title>Contact - Musée de la 1ère Armée Française</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta name="theme-color" content="#c9a96e">
+
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- JavaScript cookies -->
+    <script src="js/cookies.js"></script>
+
+    <style>
+        /* Améliorer le contraste des textes d'aide */
+        .form-help-improved {
+            color: #4a4a4a !important;
+        }
+
+        /* Améliorer le contraste des bordures de formulaire */
+        .form-control-improved {
+            border: 2px solid #2c5aa0 !important;
+        }
+
+        /* Améliorer le focus */
+        .form-control-improved:focus {
+            outline: 3px solid #c9a96e !important;
+            outline-offset: 2px !important;
+            border-color: #c9a96e !important;
+        }
+
+        /* Bouton désactivé avec meilleur contraste */
+        .btn-disabled-improved {
+            background: #6b6b6b !important;
+            color: white !important;
+            border-color: #6b6b6b !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip link pour accessibilité -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <header class="site-header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <a href="index.html" class="logo-section">
+                <img src="images/logo.png" alt="Logo du Musée" class="logo-image">
+                <div class="logo-content">
+                    <h1>Musée de la 1ère Armée Française</h1>
+                    <div class="subtitle">Bataille de Gembloux • 1940</div>
+                </div>
+            </a>
+
+            <ul class="main-nav" id="mainNav">
+                <li><a href="index.html" class="nav-link">Accueil</a></li>
+                <li><a href="infos.html" class="nav-link">Informations</a></li>
+                <li><a href="contact.html" class="nav-link active" aria-current="page">Contact</a></li>
+            </ul>
+
+            <button class="mobile-menu-btn" aria-label="Ouvrir le menu de navigation" aria-expanded="false">
+                ☰
+            </button>
+        </nav>
+    </header>
+
+    <main id="main-content" role="main">
+        <!-- Hero Section -->
+        <section class="hero" style="min-height: 50vh; padding-top: 80px;">
+            <div class="container">
+                <div class="hero-content" style="text-align: center; max-width: 800px; margin: 0 auto;">
+                    <div class="hero-badge">Contact</div>
+                    <h1 class="hero-title">Contactez-nous</h1>
+                    <p class="hero-description" style="margin: 0 auto;">
+                        Nous sommes à votre écoute pour toute question ou demande de visite.
+                        N'hésitez pas à nous contacter de préférence par téléphone ou, au besoin, par email.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Contact -->
+        <section class="section">
+            <div class="container">
+                <!-- Message de succès -->
+                <div id="successMessage" style="display: none; background: var(--accent-gold); color: white; padding: var(--spacing-md); border-radius: 6px; margin-bottom: var(--spacing-xl); text-align: center;" role="alert" aria-live="polite">
+                    ✅ Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl); margin-bottom: var(--spacing-2xl);">
+
+                    <!-- Informations de contact -->
+                    <div>
+                        <div class="section-badge" style="margin-bottom: var(--spacing-md);">Nos contacts</div>
+                        <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--text-primary); margin-bottom: var(--spacing-lg);">Contactez-nous directement</h2>
+
+                        <!-- Contact 1 -->
+                        <div style="background: var(--background-white); border: 1px solid var(--border-light); border-radius: 8px; padding: var(--spacing-lg); margin-bottom: var(--spacing-md); box-shadow: var(--shadow-subtle); border-left: 4px solid var(--accent-gold);">
+                            <h3 style="color: var(--text-primary); margin-bottom: var(--spacing-xs); font-size: 1.2rem;">M. Paul VAN RUYCHEVELT</h3>
+                            <p style="color: var(--text-secondary); font-style: italic; margin-bottom: var(--spacing-sm);">Conservateur</p>
+                            <p style="font-size: 1.1rem; font-weight: 600; color: var(--french-blue); margin-bottom: var(--spacing-xs);">
+                                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                                <a href="tel:+32486606935" style="color: inherit; text-decoration: none;">0486/60.69.35</a>
+                            </p>
+                        </div>
+
+                        <!-- Contact 2 -->
+                        <div style="background: var(--background-white); border: 1px solid var(--border-light); border-radius: 8px; padding: var(--spacing-lg); margin-bottom: var(--spacing-lg); box-shadow: var(--shadow-subtle); border-left: 4px solid var(--french-blue);">
+                            <h3 style="color: var(--text-primary); margin-bottom: var(--spacing-xs); font-size: 1.2rem;">M. Philippe DEMANET</h3>
+                            <p style="color: var(--text-secondary); font-style: italic; margin-bottom: var(--spacing-sm);">Contact et organisation</p>
+                            <p style="font-size: 1.1rem; font-weight: 600; color: var(--french-blue);">
+                                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                                <a href="tel:+32495366168" style="color: inherit; text-decoration: none;">0495/36.61.68</a>
+                            </p>
+                        </div>
+
+                        <!-- Adresse -->
+                        <div style="background: var(--background-light); padding: var(--spacing-lg); border-radius: 8px; border: 1px solid var(--border-light);">
+                            <h4 style="color: var(--text-primary); margin-bottom: var(--spacing-sm);">
+                                <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Adresse du musée
+                            </h4>
+                            <address style="font-style: normal; color: var(--text-secondary);">
+                                Rue du Tensoul, 5<br>
+                                1450 Cortil-Noirmont (Chastre)<br>
+                                Belgique
+                            </address>
+                        </div>
+                    </div>
+
+                    <!-- Formulaire de contact -->
+                    <div>
+                        <div class="section-badge" style="margin-bottom: var(--spacing-md);">Écrivez-nous</div>
+                        <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--text-primary); margin-bottom: var(--spacing-lg);">Envoyez-nous un message</h2>
+
+                        <form id="contactForm" style="background: var(--background-white); border: 1px solid var(--border-light); border-radius: 8px; padding: var(--spacing-xl); box-shadow: var(--shadow-subtle);" novalidate>
+
+                            <!-- Nom -->
+                            <div style="margin-bottom: var(--spacing-md);">
+                                <label for="name" style="display: block; font-weight: 500; color: var(--text-primary); margin-bottom: var(--spacing-xs);">
+                                    Nom complet <span style="color: var(--french-red);" aria-label="obligatoire">*</span>
+                                </label>
+                                <input type="text" id="name" name="name" required
+                                       autocomplete="name"
+                                       class="form-control-improved"
+                                       style="width: 100%; padding: var(--spacing-sm); border: 2px solid var(--border-light); border-radius: 6px; font-size: 1rem; transition: var(--transition-fast);"
+                                       aria-describedby="name-help name-error">
+                                <p id="name-help" class="form-help-improved" style="font-size: 0.9rem; color: var(--text-light); margin-top: var(--spacing-xs);">Votre nom et prénom</p>
+                                <p id="name-error" style="font-size: 0.9rem; color: var(--french-red); margin-top: var(--spacing-xs); display: none;" role="alert">Veuillez saisir votre nom</p>
+                            </div>
+
+                            <!-- Email -->
+                            <div style="margin-bottom: var(--spacing-md);">
+                                <label for="email" style="display: block; font-weight: 500; color: var(--text-primary); margin-bottom: var(--spacing-xs);">
+                                    Adresse email <span style="color: var(--french-red);" aria-label="obligatoire">*</span>
+                                </label>
+                                <input type="email" id="email" name="email" required
+                                       autocomplete="email"
+                                       class="form-control-improved"
+                                       style="width: 100%; padding: var(--spacing-sm); border: 2px solid var(--border-light); border-radius: 6px; font-size: 1rem; transition: var(--transition-fast);"
+                                       aria-describedby="email-help email-error">
+                                <p id="email-help" class="form-help-improved" style="font-size: 0.9rem; color: var(--text-light); margin-top: var(--spacing-xs);">Votre adresse email pour la réponse</p>
+                                <p id="email-error" style="font-size: 0.9rem; color: var(--french-red); margin-top: var(--spacing-xs); display: none;" role="alert">Veuillez saisir un email valide</p>
+                            </div>
+
+                            <!-- Téléphone -->
+                            <div style="margin-bottom: var(--spacing-md);">
+                                <label for="phone" style="display: block; font-weight: 500; color: var(--text-primary); margin-bottom: var(--spacing-xs);">Téléphone</label>
+                                <input type="tel" id="phone" name="phone"
+                                       autocomplete="tel"
+                                       class="form-control-improved"
+                                       style="width: 100%; padding: var(--spacing-sm); border: 2px solid var(--border-light); border-radius: 6px; font-size: 1rem; transition: var(--transition-fast);"
+                                       aria-describedby="phone-help">
+                                <p id="phone-help" class="form-help-improved" style="font-size: 0.9rem; color: var(--text-light); margin-top: var(--spacing-xs);">Optionnel - pour vous rappeler si nécessaire</p>
+                            </div>
+
+                            <!-- Sujet -->
+                            <div style="margin-bottom: var(--spacing-md);">
+                                <label for="subject" style="display: block; font-weight: 500; color: var(--text-primary); margin-bottom: var(--spacing-xs);">
+                                    Sujet <span style="color: var(--french-red);" aria-label="obligatoire">*</span>
+                                </label>
+                                <select id="subject" name="subject" required
+                                        class="form-control-improved"
+                                        style="width: 100%; padding: var(--spacing-sm); border: 2px solid var(--border-light); border-radius: 6px; font-size: 0.9rem; transition: var(--transition-fast); color: #4a4a4a;"
+                                        aria-describedby="subject-help subject-error">
+                                    <option value="">Choisissez un sujet</option>
+                                    <option value="visite-individuelle">Visite individuelle</option>
+                                    <option value="visite-groupe">Visite de groupe</option>
+                                    <option value="information">Demande d'information</option>
+                                    <option value="recherche">Recherche historique</option>
+                                    <option value="autre">Autre</option>
+                                </select>
+                                <p id="subject-help" class="form-help-improved" style="font-size: 0.9rem; color: var(--text-light); margin-top: var(--spacing-xs);">Type de votre demande</p>
+                                <p id="subject-error" style="font-size: 0.9rem; color: var(--french-red); margin-top: var(--spacing-xs); display: none;" role="alert">Veuillez choisir un sujet</p>
+                            </div>
+
+                            <!-- Message -->
+                            <div style="margin-bottom: var(--spacing-lg);">
+                                <label for="message" style="display: block; font-weight: 500; color: var(--text-primary); margin-bottom: var(--spacing-xs);">
+                                    Message <span style="color: var(--french-red);" aria-label="obligatoire">*</span>
+                                </label>
+                                <textarea id="message" name="message" required
+                                          class="form-control-improved"
+                                          style="width: 100%; min-height: 120px; padding: var(--spacing-sm); border: 2px solid var(--border-light); border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical; transition: var(--transition-fast);"
+                                          aria-describedby="message-help message-error"
+                                          placeholder="Décrivez votre demande, vos questions ou précisez les détails de votre visite (nombre de personnes, dates souhaitées, etc.)"></textarea>
+                                <p id="message-help" class="form-help-improved" style="font-size: 0.9rem; color: var(--text-light);">Détaillez votre demande</p>
+                                <p id="message-error" style="font-size: 0.9rem; color: var(--french-red); margin-top: var(--spacing-xs); display: none;" role="alert">Veuillez saisir votre message</p>
+                            </div>
+
+                            <!-- Section de consentement RGPD -->
+                            <div style="background: var(--background-light); border: 1px solid var(--border-light); border-radius: 6px; padding: var(--spacing-lg); margin: var(--spacing-lg) 0;">
+                                <h3 style="font-weight: 600; color: var(--text-primary); margin-bottom: var(--spacing-md); font-size: 1.1rem;">Protection de vos données personnelles</h3>
+
+                                <div style="display: flex; align-items: flex-start; gap: var(--spacing-sm); margin-bottom: var(--spacing-md);">
+                                    <input type="checkbox" id="consent-data" name="consent-data" required style="margin-top: 0.25rem; width: 18px; height: 18px;">
+                                    <label for="consent-data" style="font-size: 0.95rem; line-height: 1.5;">
+                                        <span style="color: var(--french-red);" aria-label="obligatoire">*</span> J'accepte que mes données personnelles soient traitées pour répondre à ma demande.
+                                        Vos données ne seront jamais transmises à des tiers et seront supprimées après traitement de votre demande.
+                                        <a href="politique-confidentialite.html" style="color: hsl(40, 45%, 38%); text-decoration: underline;" aria-label="En savoir plus sur notre politique de confidentialité">En savoir plus sur la confidentialité</a>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" id="submitBtn" disabled
+                                    class="btn-disabled-improved"
+                                    style="
+                                        background: var(--text-light);
+                                        color: white;
+                                        padding: var(--spacing-md) var(--spacing-xl);
+                                        border: none;
+                                        border-radius: 6px;
+                                        font-weight: 600;
+                                        font-size: 0.95rem;
+                                        letter-spacing: 0.02em;
+                                        text-transform: uppercase;
+                                        cursor: not-allowed;
+                                        transition: var(--transition);
+                                        display: block;
+                                        margin: 0 auto;
+                                    ">
+                                    Envoyer le message
+                                </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Musée de la 1ère Armée Française</h3>
+                    <address style="font-style: normal; margin-bottom: 1rem;">
+                        Rue du Tensoul, 5<br>
+                        1450 Cortil-Noirmont (Chastre)<br>
+                        Belgique
+                    </address>
+                    <p><strong>Email :</strong><a href="mailto:museefrancais40@gmail.com" style="text-decoration: none; color: var(--french-blue);"> museefrancais40@gmail.com</a></p>
+                    <p style="margin-bottom: 0rem;"><strong>Conservateur :</strong> M. Paul VAN RUYCHEVELT</p>
+                    <p><strong>Téléphone :</strong> 0486/60.69.35</p>
+                    <p style="margin-bottom: 0rem;"><strong>Personne de contact :</strong> M. Philippe DEMANET</p>
+                    <p><strong>Téléphone :</strong> 0495/36.61.98</p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Horaires de visite</h3>
+                    <p><strong>Dimanches et jours fériés</strong><br>14h00 - 18h00</p>
+                    <p style="margin-top: 1rem;"><strong>Visites de groupe</strong><br>Sur rendez-vous uniquement<br>(Maximum 30 personnes) au prix de 25€</p>
+                    <p style="margin-top: 1rem;"><strong>Tarifs</strong><br>Adultes : 3€ • Enfants (-12 ans) : Gratuit</p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Informations légales</h3>
+                    <ul class="footer-links">
+                        <li><a href="mentions-legales.html">Mentions légales</a></li>
+                        <li><a href="politique-confidentialite.html" aria-label="Consulter notre politique de confidentialité complète">Politique de confidentialité</a></li>
+                        <li><a href="cookies.html">Politique des cookies</a></li>
+                        <li><a href="accessibilite.html">Déclaration d'accessibilité</a></li>
+                        <li><a href="plan-du-site.html">Plan du site</a></li>
+                    </ul>
+
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-light);">
+                        <p style="font-size: 0.9rem; color: var(--text-light);">
+                          Site web développé par <strong><a href="https://www.accessnum.com/" target="_blank" rel="noopener noreferrer" style="color: var(--text-light); text-decoration: none;">Hélène</a></strong><br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Musée de la 1ère Armée Française - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bannière cookies - Version accessible et conforme -->
+    <div id="cookie-banner"
+        role="banner"
+        aria-live="polite"
+        aria-label="Bannière de consentement aux cookies"
+        style="
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1a365d;
+            color: white;
+            padding: 1rem;
+            z-index: 10000;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            border-top: 3px solid #c9a96e;
+        ">
+        <div style="
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        ">
+            <div style="flex: 1; min-width: 300px;">
+                <h2 style="
+                    margin: 0 0 0.5rem 0;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    color: #c9a96e;
+                ">
+                    🍪 Gestion des cookies
+                </h2>
+                <p style="margin: 0; font-size: 0.9rem; line-height: 1.4;">
+                    Ce site utilise des cookies essentiels pour son fonctionnement et optionnellement Google Calendar pour afficher nos événements.
+                    <a href="cookies.html"
+                      style="color: #c9a96e; text-decoration: underline;"
+                      aria-label="En savoir plus sur notre politique des cookies (ouvre une nouvelle page)">
+                      En savoir plus
+                    </a>
+                </p>
+            </div>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;" role="group" aria-label="Options de consentement aux cookies">
+                <button data-action="accept-all"
+                        aria-describedby="accept-all-description"
+                        style="
+                            background: #c9a96e;
+                            color: --primary-light;
+                            border: 2px solid #c9a96e;
+                            padding: 0.75rem 1.25rem;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-size: 0.9rem;
+                            font-weight: 600;
+                            min-height: 44px;
+                            transition: all 0.2s ease;
+                        "
+                        onmouseover="this.style.background='#b8956a'; this.style.borderColor='#b8956a'"
+                        onmouseout="this.style.background='#c9a96e'; this.style.borderColor='#c9a96e'"
+                        onfocus="this.style.outline='3px solid #ffd700'; this.style.outlineOffset='2px'"
+                        onblur="this.style.outline='none'">
+                    Accepter tout
+                </button>
+                <button data-action="accept-essential"
+                        aria-describedby="accept-essential-description"
+                        style="
+                            background: transparent;
+                            color: white;
+                            border: 2px solid white;
+                            padding: 0.75rem 1.25rem;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-size: 0.9rem;
+                            font-weight: 600;
+                            min-height: 44px;
+                            transition: all 0.2s ease;
+                        "
+                        onmouseover="this.style.background='rgba(255,255,255,0.1)'"
+                        onmouseout="this.style.background='transparent'"
+                        onfocus="this.style.outline='3px solid #ffd700'; this.style.outlineOffset='2px'"
+                        onblur="this.style.outline='none'">
+                    Essentiel uniquement
+                </button>
+            </div>
+        </div>
+
+        <!-- Descriptions cachées pour les lecteurs d'écran -->
+        <div style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;">
+            <div id="accept-all-description">
+                Accepte tous les cookies, y compris ceux de Google Calendar pour afficher les événements du musée
+            </div>
+            <div id="accept-essential-description">
+                N'accepte que les cookies essentiels au fonctionnement du site, sans Google Calendar
+            </div>
+        </div>
+    </div>
+</body>
+</html>
