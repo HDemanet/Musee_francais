@@ -3,40 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Informations pratiques du Musée de la 1ère armée française : horaires, tarifs, contact et événements à Cortil-Noirmont.">
-    <meta name="keywords" content="horaires musée, tarifs entrée, contact musée, cortil-noirmont, belgique">
-    <title>Informations pratiques - Musée de la 1ère Armée Française</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <!-- SEO Meta Tags -->
+    <title>Informations pratiques - Horaires, Tarifs & Contact | Musée Bataille Gembloux</title>
+    <meta name="description" content="Planifiez votre visite au Musée de la 1ère Armée Française : horaires d'ouverture dimanches 14h-18h, tarifs adultes 3€, enfants gratuit, visites de groupe sur RDV. Cortil-Noirmont, Belgique.">
+    <meta name="keywords" content="horaires musée bataille gembloux, tarifs entrée musée, contact musée cortil-noirmont, visite groupe belgique, musée ouvert dimanche">
+    <meta name="author" content="Musée de la 1ère Armée Française">
+    <meta name="robots" content="index, follow, max-snippet:-1">
+    <link rel="canonical" href="https://museefrancais.com/infos.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Musée de la 1ère Armée Française">
+    <meta property="og:title" content="Informations pratiques - Musée Bataille de Gembloux">
+    <meta property="og:description" content="Horaires, tarifs et informations pratiques pour visiter le Musée de la 1ère Armée Française à Cortil-Noirmont.">
+    <meta property="og:url" content="https://museefrancais.com/infos.html">
+    <meta property="og:image" content="https://museefrancais.com/images/og-image.jpg">
+    <meta property="og:locale" content="fr_BE">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Informations pratiques - Musée Bataille de Gembloux">
+    <meta name="twitter:description" content="Horaires, tarifs et contact pour visiter le musée à Cortil-Noirmont.">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" sizes="any">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <meta name="theme-color" content="#c9a96e">
 
-    <!-- CSS principal -->
+    <!-- CSS et préchargement -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
 
-    <!-- JavaScript cookies -->
-    <script src="js/cookies.js"></script>
+    <!-- JavaScript -->
+    <script src="js/cookies.js" defer></script>
 
-    <!-- Schema.org pour les horaires d'ouverture -->
+    <!-- Schema.org pour les horaires -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Museum",
         "name": "Musée de la 1ère Armée Française",
-        "openingHours": [
-            "Su 14:00-18:00"
-        ],
-        "specialOpeningHoursSpecification": {
-            "@type": "OpeningHoursSpecification",
-            "description": "Jours fériés",
-            "dayOfWeek": "PublicHolidays",
-            "opens": "14:00",
-            "closes": "18:00"
-        },
-        "priceRange": "3€",
+        "url": "https://museefrancais.com",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Rue du Tensoul, 5",
@@ -44,9 +57,75 @@
             "postalCode": "1450",
             "addressRegion": "Chastre",
             "addressCountry": "BE"
-        }
+        },
+        "telephone": "+32486606935",
+        "email": "museefrancais40@gmail.com",
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": "Sunday",
+                "opens": "14:00",
+                "closes": "18:00"
+            },
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": "PublicHolidays",
+                "opens": "14:00",
+                "closes": "18:00"
+            }
+        ],
+        "priceRange": "3€",
+        "offers": [
+            {
+                "@type": "Offer",
+                "name": "Entrée adulte",
+                "price": "3",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+            },
+            {
+                "@type": "Offer",
+                "name": "Entrée enfant (-12 ans)",
+                "price": "0",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+            },
+            {
+                "@type": "Offer",
+                "name": "Visite de groupe (max 30 personnes)",
+                "price": "25",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/PreOrder"
+            }
+        ]
     }
     </script>
+
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Accueil",
+                "item": "https://museefrancais.com/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Informations pratiques",
+                "item": "https://museefrancais.com/infos.html"
+            }
+        ]
+    }
+    </script>
+
+    <!-- Accessibilité -->
+    <meta name="format-detection" content="telephone=yes">
+    <meta name="color-scheme" content="light">
 </head>
 <body>
     <!-- Skip link pour accessibilité -->
@@ -57,7 +136,7 @@
             <a href="index.html" class="logo-section">
                 <img src="images/logo.png" alt="Logo du Musée" class="logo-image">
                 <div class="logo-content">
-                    <h1>Musée de la 1ère Armée Française</h1>
+                    <h1>Musée de la 1<sup>ère</sup> Armée Française</h1>
                     <div class="subtitle">Bataille de Gembloux • 1940</div>
                 </div>
             </a>
@@ -136,7 +215,7 @@
                         <h2 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--text-primary); margin-bottom: var(--spacing-md);">Adresse</h2>
 
                         <address style="font-style: normal; color: var(--text-secondary); margin-bottom: var(--spacing-md);">
-                            <strong style="color: var(--text-primary);">Musée de la 1ère armée française</strong><br>
+                            <strong style="color: var(--text-primary);">Musée de la 1<sup>ère</sup> armée française</strong><br>
                             Rue du Tensoul, 5<br>
                             1450 Cortil-Noirmont (Chastre)<br>
                             Belgique
@@ -200,7 +279,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Musée de la 1ère Armée Française</h3>
+                    <h3>Musée de la 1<sup>ère</sup> Armée Française</h3>
                     <address style="font-style: normal; margin-bottom: 1rem;">
                         Rue du Tensoul, 5<br>
                         1450 Cortil-Noirmont (Chastre)<br>
@@ -239,7 +318,7 @@
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2025 Musée de la 1ère Armée Française - Tous droits réservés</p>
+                <p>&copy; 2025 Musée de la 1<sup>ère</sup> Armée Française - Tous droits réservés</p>
             </div>
         </div>
     </footer>

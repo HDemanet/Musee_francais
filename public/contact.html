@@ -3,42 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contactez le Musée de la 1ère armée française. Formulaire de contact, informations pratiques et demandes de visites de groupe.">
-    <meta name="keywords" content="contact musée, formulaire contact, visite groupe, cortil-noirmont">
-    <title>Contact - Musée de la 1ère Armée Française</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <!-- SEO Meta Tags -->
+    <title>Contact - Réservations & Questions | Musée Bataille Gembloux Cortil-Noirmont</title>
+    <meta name="description" content="Contactez le Musée de la 1ère Armée Française pour vos questions, réservations de visite ou demandes de groupe. Paul VAN RUYCHEVELT : 0486/60.69.35, Philippe DEMANET : 0495/36.61.68.">
+    <meta name="keywords" content="contact musée bataille gembloux, réservation visite groupe belgique, paul van ruychevelt, philippe demanet, cortil-noirmont chastre">
+    <meta name="author" content="Musée de la 1ère Armée Française">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://museefrancais.com/contact.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Musée de la 1ère Armée Française">
+    <meta property="og:title" content="Contact - Musée Bataille de Gembloux">
+    <meta property="og:description" content="Contactez-nous pour vos questions ou réservations de visite au musée de Cortil-Noirmont.">
+    <meta property="og:url" content="https://museefrancais.com/contact.html">
+    <meta property="og:image" content="https://museefrancais.com/images/og-image.jpg">
+    <meta property="og:locale" content="fr_BE">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" sizes="any">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <meta name="theme-color" content="#c9a96e">
 
-    <!-- CSS principal -->
+    <!-- CSS et préchargement -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
 
-    <!-- JavaScript cookies -->
-    <script src="js/cookies.js"></script>
+    <!-- JavaScript -->
+    <script src="js/cookies.js" defer></script>
 
+    <!-- Schema.org pour la page de contact -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "mainEntity": {
+            "@type": "Museum",
+            "name": "Musée de la 1ère Armée Française",
+            "url": "https://museefrancais.com",
+            "contactPoint": [
+                {
+                    "@type": "ContactPoint",
+                    "contactType": "Conservateur",
+                    "telephone": "+32486606935",
+                    "email": "museefrancais40@gmail.com",
+                    "name": "Paul VAN RUYCHEVELT",
+                    "availableLanguage": ["French"]
+                },
+                {
+                    "@type": "ContactPoint",
+                    "contactType": "Contact et organisation",
+                    "telephone": "+32495366168",
+                    "name": "Philippe DEMANET",
+                    "availableLanguage": ["French"]
+                }
+            ],
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Rue du Tensoul, 5",
+                "addressLocality": "Cortil-Noirmont",
+                "postalCode": "1450",
+                "addressRegion": "Chastre",
+                "addressCountry": "BE"
+            }
+        }
+    }
+    </script>
+
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Accueil",
+                "item": "https://museefrancais.com/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Contact",
+                "item": "https://museefrancais.com/contact.html"
+            }
+        ]
+    }
+    </script>
+
+    <!-- Accessibilité -->
+    <meta name="format-detection" content="telephone=yes">
+    <meta name="color-scheme" content="light">
+
+    <!-- Style inline critique pour le formulaire -->
     <style>
-        /* Améliorer le contraste des textes d'aide */
         .form-help-improved {
             color: #4a4a4a !important;
         }
-
-        /* Améliorer le contraste des bordures de formulaire */
         .form-control-improved {
             border: 2px solid #2c5aa0 !important;
         }
-
-        /* Améliorer le focus */
         .form-control-improved:focus {
             outline: 3px solid #c9a96e !important;
             outline-offset: 2px !important;
             border-color: #c9a96e !important;
         }
-
-        /* Bouton désactivé avec meilleur contraste */
         .btn-disabled-improved {
             background: #6b6b6b !important;
             color: white !important;
@@ -55,7 +131,7 @@
             <a href="index.html" class="logo-section">
                 <img src="images/logo.png" alt="Logo du Musée" class="logo-image">
                 <div class="logo-content">
-                    <h1>Musée de la 1ère Armée Française</h1>
+                    <h1>Musée de la 1<sup>ère</sup> Armée Française</h1>
                     <div class="subtitle">Bataille de Gembloux • 1940</div>
                 </div>
             </a>
@@ -87,7 +163,7 @@
             </div>
         </section>
 
-        <!-- Section Contact -->
+        <!-- Section Contact CORRIGÉE -->
         <section class="section">
             <div class="container">
                 <!-- Message de succès -->
@@ -95,10 +171,11 @@
                     ✅ Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl); margin-bottom: var(--spacing-2xl);">
+                <!-- GRILLE RESPONSIVE CORRIGÉE -->
+                <div class="contact-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl); margin-bottom: var(--spacing-2xl);">
 
                     <!-- Informations de contact -->
-                    <div>
+                    <div class="contact-info-section">
                         <div class="section-badge" style="margin-bottom: var(--spacing-md);">Nos contacts</div>
                         <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--text-primary); margin-bottom: var(--spacing-lg);">Contactez-nous directement</h2>
 
@@ -136,7 +213,7 @@
                     </div>
 
                     <!-- Formulaire de contact -->
-                    <div>
+                    <div class="contact-form-section">
                         <div class="section-badge" style="margin-bottom: var(--spacing-md);">Écrivez-nous</div>
                         <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--text-primary); margin-bottom: var(--spacing-lg);">Envoyez-nous un message</h2>
 
@@ -247,7 +324,7 @@
                                         margin: 0 auto;
                                     ">
                                     Envoyer le message
-                                </button>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -259,7 +336,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Musée de la 1ère Armée Française</h3>
+                    <h3>Musée de la 1<sup>ère</sup> Armée Française</h3>
                     <address style="font-style: normal; margin-bottom: 1rem;">
                         Rue du Tensoul, 5<br>
                         1450 Cortil-Noirmont (Chastre)<br>
@@ -298,7 +375,7 @@
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2025 Musée de la 1ère Armée Française - Tous droits réservés</p>
+                <p>&copy; 2025 Musée de la 1<sup>ère</sup> Armée Française - Tous droits réservés</p>
             </div>
         </div>
     </footer>
@@ -403,5 +480,46 @@
             </div>
         </div>
     </div>
+
+    <script>
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Envoi en cours...';
+
+      const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value
+      };
+
+      try {
+        const response = await fetch('/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          document.getElementById('successMessage').style.display = 'block';
+          document.getElementById('contactForm').reset();
+        } else {
+          alert("Erreur lors de l'envoi. Veuillez réessayer.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Erreur de connexion au serveur.");
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Envoyer le message';
+    });
+    </script>
 </body>
 </html>

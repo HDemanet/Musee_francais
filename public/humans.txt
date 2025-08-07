@@ -1,0 +1,18 @@
+/* TEAM */
+Conservateur: Paul VAN RUYCHEVELT
+Contact: Philippe DEMANET
+Site web: Hélène - https://www.accessnum.com/
+
+/* SITE */
+Last update: 2025/01/01
+Language: Français / Français (Belgique)
+Doctype: HTML5
+Standards: HTML5, CSS3, WCAG 2.2 AA
+Components: Vanilla JavaScript, Schema.org
+Software: VS Code
+
+/* LOCATION */
+Musée de la 1ère Armée Française
+Rue du Tensoul, 5
+1450 Cortil-Noirmont (Chastre)
+Belgique

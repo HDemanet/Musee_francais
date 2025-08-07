@@ -1,8 +1,22 @@
 User-agent: *
 Allow: /
-Disallow: /mentions-legales.html
-Disallow: /politique-confidentialite.html
-Disallow: /accessibilite.html
-Disallow: /cookies.html
 
-Sitemap: https://votre-domaine.com/sitemap.xml
+# Pages importantes
+Allow: /index.html
+Allow: /infos.html
+Allow: /contact.html
+Allow: /plan-du-site.html
+
+# Sitemap
+Sitemap: https://museefrancais.com/sitemap.xml
+
+# Crawl delay pour être respectueux
+Crawl-delay: 1
+
+# Fichiers à ne pas indexer
+Disallow: /js/
+Disallow: /*.js$
+Disallow: /favicon*
+
+# Images autorisées pour Google Images
+Allow: /images/
