@@ -149,7 +149,13 @@ app.post('/send', async (req, res) => {
     // Envoyer l'email
     const info = await transporter.sendMail(mailOptions);
     console.log('✅ Email envoyé avec succès!');
-    console.log('📧 Détails:', { messageId: info.messageId, to: mailOptions.to });
+    console.log('📧 Détails:', {
+      messageId: info.messageId,
+      to: mailOptions.to,
+      accepted: info.accepted,
+      rejected: info.rejected,
+      response: info.response
+    });
 
     res.status(200).json({
       success: true,
