@@ -1,56 +1,39 @@
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const nodemailer = require('nodemailer');
-require('dotenv').config();
 
-console.log('🚀 Démarrage du serveur...');
+console.log('🚀 Démarrage du serveur statique...');
 
 const app = express();
 
-// Middleware de base
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// Servir les fichiers statiques depuis le dossier public
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Log des requêtes
-app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
-  next();
-});
-
-// Test de base
+// Route principale - redirige vers index.html
 app.get('/', (req, res) => {
-  console.log('📍 Route / appelée');
-  res.send(`
-    <h1>🎯 Serveur fonctionnel !</h1>
-    <p>Date: ${new Date().toISOString()}</p>
-    <p>Port: ${process.env.PORT || 3000}</p>
-    <p><a href="/health">Test santé</a></p>
-    <p><a href="/contact.html">Page contact</a></p>
-  `);
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Route de santé
+// Route de santé pour vérifier que le serveur fonctionne
 app.get('/health', (req, res) => {
-  console.log('💚 Health check appelé');
   res.json({
     status: 'OK',
+    message: 'Serveur statique fonctionnel',
     timestamp: new Date().toISOString(),
-    port: process.env.PORT || 3000,
-    env: process.env.NODE_ENV || 'development'
+    formType: 'Formspree'
   });
 });
 
-// Servir les fichiers statiques
-app.use(express.static(path.join(__dirname, 'public')));
+// Gestion des erreurs 404 - redirige vers l'accueil
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Démarrage du serveur
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅ Serveur démarré sur le port ${PORT}`);
-  console.log(`🌍 URL: https://votre-app.herokuapp.com`);
+  console.log(`✅ Serveur statique démarré sur le port ${PORT}`);
+  console.log(`🌐 Site accessible sur : https://www.museefrancais.com`);
+  console.log(`📧 Formulaire de contact géré par Formspree`);
 }).on('error', (err) => {
   console.error('❌ Erreur de démarrage:', err);
 });

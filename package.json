@@ -1,7 +1,7 @@
 {
   "name": "musee-1ere-armee-francaise",
   "version": "1.0.0",
-  "description": "Site web du Musée de la 1ère Armée Française",
+  "description": "Site web du Musée de la 1ère Armée Française - Site statique avec formulaire Formspree",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -12,10 +12,16 @@
     "npm": "9.x"
   },
   "dependencies": {
-    "body-parser": "^2.2.0",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.1",
-    "express": "^4.18.2",
-    "nodemailer": "^7.0.5"
-  }
+    "express": "^4.18.2"
+  },
+  "keywords": [
+    "musée",
+    "histoire",
+    "bataille",
+    "gembloux",
+    "1940",
+    "armée française"
+  ],
+  "author": "Hélène Demanet",
+  "license": "MIT"
 }
