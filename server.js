@@ -174,7 +174,7 @@ app.post('/send', async (req, res) => {
 
     // Options de l'email avec configuration correcte pour Brevo
     const mailOptions = {
-      from: `"Musée de la 1ère Armée Française" <demanet.helene@gmail.com>`, // Votre email vérifié
+      from: `"Musée de la 1ère Armée Française" <${process.env.SMTP_USER}>`, // Email technique Brevo
       replyTo: `"${name}" <${email}>`, // Email du visiteur pour répondre
       to: 'museefrancais40@gmail.com', // Email du musée
       subject: `[Site Web] ${subjectText} - ${name}`,
