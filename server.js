@@ -138,30 +138,6 @@ app.post('/send', async (req, res) => {
       });
     }
 
-    console.log('✅ Validation OK pour:', { name, email, subject });
-
-    // Vérification des variables d'environnement
-    console.log('🔧 Config SMTP:', {
-      host: process.env.SMTP_HOST || 'MANQUANT',
-      user: process.env.SMTP_USER ? 'OK' : 'MANQUANT',
-      pass: process.env.SMTP_PASS ? 'OK' : 'MANQUANT',
-      receiver: process.env.RECEIVER_EMAIL || 'MANQUANT'
-    });
-
-    // Configuration du transporteur email
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp-relay.brevo.com',
-      port: parseInt(process.env.SMTP_PORT) || 587,
-      secure: false, // false pour le port 587 (STARTTLS)
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-      connectionTimeout: 60000,
-      greetingTimeout: 30000,
-      socketTimeout: 60000,
-    });
-
     // Mapping des sujets
     const subjectMap = {
       'visite-individuelle': 'Visite individuelle',
@@ -172,47 +148,66 @@ app.post('/send', async (req, res) => {
     };
     const subjectText = subjectMap[subject] || subject;
 
-    // Options de l'email avec configuration correcte pour Brevo
+    console.log('🔧 Config SMTP:', {
+      host: 'smtp-relay.brevo.com',
+      user: process.env.SMTP_USER ? 'OK' : 'MANQUANT',
+      pass: process.env.SMTP_PASS ? 'OK' : 'MANQUANT',
+      receiver: 'museefrancais40@gmail.com'
+    });
+
+    // Configuration du transporteur email - Version simplifiée
+    const transporter = nodemailer.createTransport({
+      host: 'smtp-relay.brevo.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    // Options de l'email - Configuration minimale qui fonctionne avec Brevo
     const mailOptions = {
-      from: `"Musée de la 1ère Armée Française" <${process.env.SMTP_USER}>`, // Email technique Brevo
-      replyTo: `"${name}" <${email}>`, // Email du visiteur pour répondre
-      to: 'museefrancais40@gmail.com', // Email du musée
-      subject: `[Site Web] ${subjectText} - ${name}`,
+      from: process.env.SMTP_USER, // Utilisez exactement l'email technique Brevo
+      to: 'museefrancais40@gmail.com',
+      replyTo: email, // L'email du visiteur pour répondre
+      subject: `[Musée] ${subjectText} de ${name}`,
+      text: `
+Nouveau message depuis le site web du musée
+
+CONTACT:
+Nom: ${name}
+Email: ${email}
+Téléphone: ${phone || 'Non renseigné'}
+Sujet: ${subjectText}
+
+MESSAGE:
+${message}
+
+---
+Envoyé le ${new Date().toLocaleString('fr-BE')} depuis https://www.museefrancais.com
+Pour répondre, utilisez l'email: ${email}
+      `,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd;">
-          <div style="background: #2c5aa0; color: white; padding: 15px; text-align: center;">
-            <h1 style="margin: 0; font-size: 24px;">📧 Nouveau message depuis le site web</h1>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h2 style="color: #2c5aa0;">📧 Nouveau message depuis le site web</h2>
+
+          <div style="background: #f8f9fa; padding: 15px; margin: 20px 0; border-radius: 5px;">
+            <h3>Informations du contact</h3>
+            <p><strong>Nom:</strong> ${name}</p>
+            <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+            <p><strong>Téléphone:</strong> ${phone || 'Non renseigné'}</p>
+            <p><strong>Sujet:</strong> ${subjectText}</p>
           </div>
 
-          <div style="background: #f8f9fa; padding: 20px; margin: 20px 0;">
-            <h2 style="color: #2c5aa0; margin-top: 0;">👤 Informations du contact</h2>
-            <table style="width: 100%; border-collapse: collapse;">
-              <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Nom :</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${name}</td></tr>
-              <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Email :</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;"><a href="mailto:${email}">${email}</a></td></tr>
-              <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Téléphone :</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${phone || 'Non renseigné'}</td></tr>
-              <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Sujet :</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${subjectText}</td></tr>
-            </table>
+          <div style="background: white; padding: 15px; border-left: 4px solid #c9a96e;">
+            <h3>Message:</h3>
+            <p style="line-height: 1.6;">${message.replace(/\n/g, '<br>')}</p>
           </div>
 
-          <div style="background: white; padding: 20px; border-left: 4px solid #c9a96e;">
-            <h2 style="color: #2c5aa0; margin-top: 0;">💬 Message :</h2>
-            <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; line-height: 1.6;">
-              ${message.replace(/\n/g, '<br>')}
-            </div>
-          </div>
-
-          <div style="margin-top: 20px; padding: 15px; background: #e8f4f8; border-radius: 5px; text-align: center;">
-            <p style="margin: 0; font-size: 14px; color: #666;">
-              📅 Message reçu le ${new Date().toLocaleString('fr-BE')} depuis le formulaire de contact du site web<br>
-              🌐 <a href="https://www.museefrancais.com" style="color: #2c5aa0;">www.museefrancais.com</a>
-            </p>
-          </div>
-
-          <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 5px;">
-            <p style="margin: 0; font-size: 14px;">
-              <strong>💡 Pour répondre :</strong> Cliquez sur "Répondre" dans votre messagerie,
-              l'email sera automatiquement adressé à ${email}
-            </p>
+          <div style="margin-top: 20px; padding: 10px; background: #e8f4f8; border-radius: 5px; font-size: 12px;">
+            <p>Envoyé le ${new Date().toLocaleString('fr-BE')} depuis le site web du musée</p>
+            <p><strong>Pour répondre:</strong> Cliquez sur "Répondre" pour écrire directement à ${email}</p>
           </div>
         </div>
       `,
