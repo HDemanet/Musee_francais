@@ -84,7 +84,7 @@ app.post('/send', async (req, res) => {
     });
 
     // Configuration du transporteur email
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp-relay.brevo.com',
       port: parseInt(process.env.SMTP_PORT) || 587,
       secure: false, // false pour le port 587 (STARTTLS)
