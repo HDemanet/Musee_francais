@@ -167,7 +167,7 @@
         <section class="section">
             <div class="container">
                 <!-- Message de succès -->
-                <div id="successMessage" style="display: none; background: var(--accent-gold); color: white; padding: var(--spacing-md); border-radius: 6px; margin-bottom: var(--spacing-xl); text-align: center;" role="alert" aria-live="polite">
+                <div id="successMessage" style="display: none; background: var(--accent-gold); color: #1a1a1a; padding: var(--spacing-md); border-radius: 6px; margin-bottom: var(--spacing-xl); text-align: center;" role="alert" aria-live="polite">
                     ✅ Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.
                 </div>
 
@@ -487,42 +487,176 @@
         const submitBtn = document.getElementById('submitBtn');
         const successMessage = document.getElementById('successMessage');
 
-        form.addEventListener('submit', async function (e) {
-          e.preventDefault();
+        // Éléments du formulaire
+        const nameField = document.getElementById('name');
+        const emailField = document.getElementById('email');
+        const phoneField = document.getElementById('phone');
+        const subjectField = document.getElementById('subject');
+        const messageField = document.getElementById('message');
+        const consentField = document.getElementById('consent-data');
 
-          submitBtn.disabled = true;
-          submitBtn.textContent = 'Envoi en cours...';
+        // Fonction pour valider l'email
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
 
-          const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            subject: document.getElementById('subject').value,
-            message: document.getElementById('message').value,
-          };
-
-          try {
-            const response = await fetch('/send', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-              successMessage.style.display = 'block';
-              form.reset();
-            } else {
-              alert("Erreur lors de l'envoi du message.");
+        // Fonction pour afficher/masquer les erreurs
+        function showError(fieldId, show = true) {
+            const errorElement = document.getElementById(fieldId + '-error');
+            if (errorElement) {
+                errorElement.style.display = show ? 'block' : 'none';
             }
-          } catch (error) {
-            alert("Erreur de connexion au serveur.");
-          } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Envoyer';
-          }
+        }
+
+        // Fonction pour valider tous les champs
+        function validateForm() {
+            let isValid = true;
+
+            // Validation du nom
+            if (!nameField.value.trim()) {
+                showError('name');
+                isValid = false;
+            } else {
+                showError('name', false);
+            }
+
+            // Validation de l'email
+            if (!emailField.value.trim() || !isValidEmail(emailField.value)) {
+                showError('email');
+                isValid = false;
+            } else {
+                showError('email', false);
+            }
+
+            // Validation du sujet
+            if (!subjectField.value) {
+                showError('subject');
+                isValid = false;
+            } else {
+                showError('subject', false);
+            }
+
+            // Validation du message
+            if (!messageField.value.trim()) {
+                showError('message');
+                isValid = false;
+            } else {
+                showError('message', false);
+            }
+
+            // Validation du consentement RGPD
+            if (!consentField.checked) {
+                alert('Vous devez accepter le traitement de vos données personnelles pour envoyer ce message.');
+                consentField.focus();
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Fonction pour activer/désactiver le bouton submit
+        function updateSubmitButton() {
+            const allFieldsFilled = nameField.value.trim() &&
+                                   emailField.value.trim() &&
+                                   subjectField.value &&
+                                   messageField.value.trim() &&
+                                   consentField.checked;
+
+            if (allFieldsFilled) {
+                submitBtn.disabled = false;
+                submitBtn.style.background = 'var(--accent-gold)';
+                submitBtn.style.cursor = 'pointer';
+                submitBtn.classList.remove('btn-disabled-improved');
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.style.background = 'var(--text-light)';
+                submitBtn.style.cursor = 'not-allowed';
+                submitBtn.classList.add('btn-disabled-improved');
+            }
+        }
+
+        // Écouteurs d'événements pour la validation en temps réel
+        [nameField, emailField, subjectField, messageField, consentField].forEach(field => {
+            field.addEventListener('input', updateSubmitButton);
+            field.addEventListener('change', updateSubmitButton);
         });
-      });
+
+        // Validation initiale
+        updateSubmitButton();
+
+        // Soumission du formulaire
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Validation complète avant envoi
+            if (!validateForm()) {
+                return;
+            }
+
+            // Désactiver le bouton et changer le texte
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Envoi en cours...';
+            submitBtn.style.background = 'var(--text-light)';
+            submitBtn.style.cursor = 'not-allowed';
+
+            // Préparer les données
+            const formData = {
+                name: nameField.value.trim(),
+                email: emailField.value.trim(),
+                phone: phoneField.value.trim() || '',
+                subject: subjectField.value,
+                message: messageField.value.trim()
+            };
+
+            try {
+                const response = await fetch('/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    // Succès
+                    successMessage.style.display = 'block';
+
+                    // Scroll vers le message de succès
+                    successMessage.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+
+                    // Réinitialiser le formulaire
+                    form.reset();
+                    updateSubmitButton();
+
+                    // Masquer toutes les erreurs
+                    ['name', 'email', 'subject', 'message'].forEach(field => {
+                        showError(field, false);
+                    });
+
+                } else {
+                    alert('Erreur lors de l\'envoi du message : ' + (result.message || 'Erreur inconnue'));
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur de connexion au serveur. Veuillez réessayer plus tard.');
+            } finally {
+                // Réactiver le bouton
+                submitBtn.textContent = 'Envoyer le message';
+                updateSubmitButton();
+            }
+        });
+
+        // Masquer le message de succès au clic
+        successMessage.addEventListener('click', function() {
+            this.style.display = 'none';
+        });
+    });
     </script>
 </body>
 </html>
