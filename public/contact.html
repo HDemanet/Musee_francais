@@ -585,7 +585,7 @@
         // Validation initiale
         updateSubmitButton();
 
-        // Soumission du formulaire
+        // Soumission du formulaire avec Formspree
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
 
@@ -600,27 +600,34 @@
             submitBtn.style.background = 'var(--text-light)';
             submitBtn.style.cursor = 'not-allowed';
 
-            // Préparer les données
-            const formData = {
-                name: nameField.value.trim(),
-                email: emailField.value.trim(),
-                phone: phoneField.value.trim() || '',
-                subject: subjectField.value,
-                message: messageField.value.trim()
+            // Mapping des sujets pour un texte plus lisible
+            const subjectMap = {
+                'visite-individuelle': 'Visite individuelle',
+                'visite-groupe': 'Visite de groupe',
+                'information': 'Demande d\'information',
+                'recherche': 'Recherche historique',
+                'autre': 'Autre demande'
             };
 
+            // Préparer les données pour Formspree
+            const formData = new FormData();
+            formData.append('name', nameField.value.trim());
+            formData.append('email', emailField.value.trim());
+            formData.append('phone', phoneField.value.trim() || 'Non renseigné');
+            formData.append('subject', subjectMap[subjectField.value] || subjectField.value);
+            formData.append('message', messageField.value.trim());
+            formData.append('_subject', `[Musée] ${subjectMap[subjectField.value] || subjectField.value} - ${nameField.value.trim()}`);
+
             try {
-                const response = await fetch('/send', {
+                const response = await fetch('https://formspree.io/f/xkgzkdln', {
                     method: 'POST',
+                    body: formData,
                     headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
+                        'Accept': 'application/json'
+                    }
                 });
 
-                const result = await response.json();
-
-                if (response.ok && result.success) {
+                if (response.ok) {
                     // Succès
                     successMessage.style.display = 'block';
 
@@ -640,11 +647,12 @@
                     });
 
                 } else {
-                    alert('Erreur lors de l\'envoi du message : ' + (result.message || 'Erreur inconnue'));
+                    const errorData = await response.json();
+                    alert('Erreur lors de l\'envoi du message : ' + (errorData.error || 'Erreur inconnue'));
                 }
             } catch (error) {
                 console.error('Erreur:', error);
-                alert('Erreur de connexion au serveur. Veuillez réessayer plus tard.');
+                alert('Erreur de connexion. Veuillez réessayer plus tard.');
             } finally {
                 // Réactiver le bouton
                 submitBtn.textContent = 'Envoyer le message';
