@@ -46,7 +46,72 @@ app.get('/health', (req, res) => {
 // Servir les fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Route de test pour le formulaire (avec envoi d'email réel)
+// Route de test pour diagnostic email
+app.get('/test-email', async (req, res) => {
+  console.log('🧪 Test de diagnostic email');
+
+  try {
+    // Configuration du transporteur
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp-relay.brevo.com',
+      port: parseInt(process.env.SMTP_PORT) || 587,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    console.log('🔧 Test de connexion SMTP...');
+    await transporter.verify();
+    console.log('✅ Connexion SMTP OK');
+
+    // Email de test ultra-simple
+    const testMailOptions = {
+      from: process.env.SMTP_USER,
+      to: 'demanet.helene@gmail.com', // Votre email pour test
+      subject: 'Test email depuis Heroku',
+      text: `Test envoyé le ${new Date().toISOString()}\nDepuis: ${process.env.SMTP_HOST}\nUtilisateur: ${process.env.SMTP_USER}`,
+      html: `
+        <h2>🧪 Email de test</h2>
+        <p><strong>Date:</strong> ${new Date().toISOString()}</p>
+        <p><strong>Serveur:</strong> ${process.env.SMTP_HOST}</p>
+        <p><strong>Utilisateur:</strong> ${process.env.SMTP_USER}</p>
+        <p>Si vous recevez cet email, la configuration fonctionne !</p>
+      `
+    };
+
+    console.log('📧 Envoi email de test vers:', testMailOptions.to);
+    const info = await transporter.sendMail(testMailOptions);
+
+    console.log('✅ Email de test envoyé!');
+    console.log('📊 Résultat complet:', info);
+
+    res.json({
+      success: true,
+      message: 'Email de test envoyé',
+      details: {
+        messageId: info.messageId,
+        to: testMailOptions.to,
+        accepted: info.accepted,
+        rejected: info.rejected,
+        response: info.response
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ Erreur test email:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      details: {
+        code: error.code,
+        command: error.command,
+        response: error.response
+      }
+    });
+  }
+});
 app.post('/send', async (req, res) => {
   console.log('📬 Route /send appelée');
   console.log('📦 Body reçu:', req.body);
@@ -107,34 +172,47 @@ app.post('/send', async (req, res) => {
     };
     const subjectText = subjectMap[subject] || subject;
 
-    // Options de l'email
+    // Options de l'email avec configuration correcte pour Brevo
     const mailOptions = {
-      from: `"Site Musée" <${process.env.SMTP_USER}>`,
-      replyTo: `"${name}" <${email}>`,
-      to: process.env.RECEIVER_EMAIL || 'museefrancais40@gmail.com',
-      subject: `[Contact Musée] ${subjectText}`,
+      from: `"Musée de la 1ère Armée Française" <demanet.helene@gmail.com>`, // Votre email vérifié
+      replyTo: `"${name}" <${email}>`, // Email du visiteur pour répondre
+      to: 'museefrancais40@gmail.com', // Email du musée
+      subject: `[Site Web] ${subjectText} - ${name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd;">
-          <h2 style="color: #2c5aa0; border-bottom: 2px solid #c9a96e; padding-bottom: 10px;">
-            📧 Nouveau message depuis le site du musée
-          </h2>
-
-          <div style="background: #f8f9fa; padding: 15px; margin: 20px 0; border-radius: 5px;">
-            <h3 style="color: #2c5aa0; margin-top: 0;">Informations du contact</h3>
-            <p><strong>Nom :</strong> ${name}</p>
-            <p><strong>Email :</strong> <a href="mailto:${email}">${email}</a></p>
-            <p><strong>Téléphone :</strong> ${phone || 'Non renseigné'}</p>
-            <p><strong>Sujet :</strong> ${subjectText}</p>
+          <div style="background: #2c5aa0; color: white; padding: 15px; text-align: center;">
+            <h1 style="margin: 0; font-size: 24px;">📧 Nouveau message depuis le site web</h1>
           </div>
 
-          <div style="background: white; padding: 15px; border-left: 4px solid #c9a96e;">
-            <h3 style="color: #2c5aa0; margin-top: 0;">Message :</h3>
-            <p style="line-height: 1.6; white-space: pre-line;">${message}</p>
+          <div style="background: #f8f9fa; padding: 20px; margin: 20px 0;">
+            <h2 style="color: #2c5aa0; margin-top: 0;">👤 Informations du contact</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Nom :</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${name}</td></tr>
+              <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Email :</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;"><a href="mailto:${email}">${email}</a></td></tr>
+              <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Téléphone :</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${phone || 'Non renseigné'}</td></tr>
+              <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Sujet :</strong></td><td style="padding: 8px; border-bottom: 1px solid #ddd;">${subjectText}</td></tr>
+            </table>
           </div>
 
-          <div style="margin-top: 20px; padding: 10px; background: #e8f4f8; border-radius: 5px; font-size: 12px; color: #666;">
-            <p style="margin: 0;">Ce message a été envoyé depuis le formulaire de contact du site web du Musée de la 1ère Armée Française.</p>
-            <p style="margin: 5px 0 0 0;">Date d'envoi : ${new Date().toLocaleString('fr-BE')}</p>
+          <div style="background: white; padding: 20px; border-left: 4px solid #c9a96e;">
+            <h2 style="color: #2c5aa0; margin-top: 0;">💬 Message :</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; line-height: 1.6;">
+              ${message.replace(/\n/g, '<br>')}
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; padding: 15px; background: #e8f4f8; border-radius: 5px; text-align: center;">
+            <p style="margin: 0; font-size: 14px; color: #666;">
+              📅 Message reçu le ${new Date().toLocaleString('fr-BE')} depuis le formulaire de contact du site web<br>
+              🌐 <a href="https://www.museefrancais.com" style="color: #2c5aa0;">www.museefrancais.com</a>
+            </p>
+          </div>
+
+          <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 5px;">
+            <p style="margin: 0; font-size: 14px;">
+              <strong>💡 Pour répondre :</strong> Cliquez sur "Répondre" dans votre messagerie,
+              l'email sera automatiquement adressé à ${email}
+            </p>
           </div>
         </div>
       `,
