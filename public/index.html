@@ -53,8 +53,10 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
 
-    <!-- JavaScript avec defer pour les performances -->
+    <!-- JavaScript -->
+    <script src="js/banner.js"></script>
     <script src="js/cookies.js" defer></script>
 
     <!-- Schema.org optimisé -->
@@ -502,5 +504,33 @@
             </div>
         </div>
     </div>
+
+    <!-- Diagnostic et correction forcée -->
+<script>
+setTimeout(() => {
+    console.log('🔍 Vérification finale bannière...');
+    const banner = document.querySelector('.event-banner');
+    if (banner) {
+        const computed = window.getComputedStyle(banner);
+        console.log('Display:', computed.display);
+        console.log('Visibility:', computed.visibility);
+        console.log('Opacity:', computed.opacity);
+
+        // Force l'affichage si masqué
+        if (computed.display === 'none' || computed.visibility === 'hidden') {
+            console.log('🚨 Bannière masquée - correction forcée');
+            banner.style.cssText += `
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                position: relative !important;
+                z-index: 999 !important;
+            `;
+        }
+    } else {
+        console.log('❌ Aucune bannière trouvée');
+    }
+}, 2000);
+</script>
 </body>
 </html>

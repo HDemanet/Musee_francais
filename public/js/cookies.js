@@ -20,12 +20,20 @@ function checkCookieConsent() {
 
     if (!consent && banner) {
         banner.style.display = 'block';
-        console.log('✅ Bannière affichée');
+        console.log('✅ Bannière cookies affichée');
     } else if (banner) {
         banner.style.display = 'none';
-        console.log('Bannière masquée - consentement:', consent);
+        console.log('Bannière cookies masquée - consentement:', consent);
     }
 }
+
+// ==== FONCTION POUR RÉAFFICHER LA BANNIÈRE COOKIES (pour debug) ====
+window.showCookieBanner = function() {
+    localStorage.removeItem('cookie-consent');
+    localStorage.removeItem('calendar-consent');
+    checkCookieConsent();
+    console.log('🔄 Bannière cookies réaffichée');
+};
 
 // ==== GESTION DES ÉVÉNEMENTS ====
 function setupEventListeners() {
