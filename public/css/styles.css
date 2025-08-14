@@ -497,7 +497,6 @@ p {
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-2xl);
   align-items: center;
-  margin-bottom: var(--spacing-xl);
 }
 
 .story-content h3 {
