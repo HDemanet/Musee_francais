@@ -1,5 +1,5 @@
-// Version ultra-simple qui marche à coup sûr
-console.log('🚀 Banner.js chargé');
+// Version hybride : localStorage en local, API en production
+console.log('🚀 Banner.js chargé (version hybride)');
 
 // Protection contre le double chargement
 if (window.bannerLoaded) {
@@ -7,23 +7,22 @@ if (window.bannerLoaded) {
 } else {
     window.bannerLoaded = true;
 
-    // Fonction de fermeture globale avec sauvegarde
+    // Détecter l'environnement
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const API_BASE = isProduction ? '' : 'http://localhost:3000';
+
+    console.log(`🌐 Environnement détecté: ${isProduction ? 'PRODUCTION' : 'LOCAL'}`);
+
+    // Fonction de fermeture globale
     window.closeBanner = function(button) {
         console.log('🗙 Fermeture bannière');
         const banner = button.closest('.event-banner');
         if (banner) {
-            // Marquer comme fermée pour tout le site
-            const currentBanner = localStorage.getItem('currentBanner');
-            if (currentBanner) {
-                try {
-                    const bannerData = JSON.parse(currentBanner);
-                    bannerData.closed = true;
-                    bannerData.closedAt = new Date().toISOString();
-                    localStorage.setItem('currentBanner', JSON.stringify(bannerData));
-                    console.log('💾 Bannière marquée comme fermée');
-                } catch (error) {
-                    console.error('❌ Erreur sauvegarde fermeture:', error);
-                }
+            // Marquer comme fermée selon l'environnement
+            if (isProduction) {
+                markBannerAsClosedAPI();
+            } else {
+                markBannerAsClosedLocal();
             }
 
             banner.style.transition = 'all 0.3s ease';
@@ -38,58 +37,152 @@ if (window.bannerLoaded) {
         }
     };
 
+    // Marquer comme fermée en production (API)
+    async function markBannerAsClosedAPI() {
+        try {
+            const userId = getUserId();
+            const response = await fetch(`${API_BASE}/api/banner/close`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId })
+            });
+
+            if (response.ok) {
+                console.log('💾 Bannière marquée comme fermée côté serveur');
+            } else {
+                console.log('⚠️ Erreur API, fallback vers localStorage');
+                markBannerAsClosedLocal();
+            }
+        } catch (error) {
+            console.error('❌ Erreur lors de la fermeture API:', error);
+            markBannerAsClosedLocal();
+        }
+    }
+
+    // Marquer comme fermée en local (localStorage)
+    function markBannerAsClosedLocal() {
+        const currentBanner = localStorage.getItem('currentBanner');
+        if (currentBanner) {
+            try {
+                const bannerData = JSON.parse(currentBanner);
+                bannerData.closed = true;
+                bannerData.closedAt = new Date().toISOString();
+                localStorage.setItem('currentBanner', JSON.stringify(bannerData));
+                console.log('💾 Bannière marquée comme fermée localement');
+            } catch (error) {
+                console.error('❌ Erreur sauvegarde locale:', error);
+            }
+        }
+    }
+
+    // Générer un ID unique pour le visiteur
+    function getUserId() {
+        let userId = localStorage.getItem('userId');
+        if (!userId) {
+            userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('userId', userId);
+        }
+        return userId;
+    }
+
     // Chargement et affichage
     document.addEventListener('DOMContentLoaded', function() {
         console.log('📋 Vérification bannière...');
 
-        const currentBanner = localStorage.getItem('currentBanner');
-        if (!currentBanner) {
-            console.log('ℹ️ Pas de bannière sauvegardée');
-            return;
+        if (isProduction) {
+            loadBannerFromServer();
+        } else {
+            console.log('🏠 Mode local: utilisation de localStorage');
+            loadBannerFromLocalStorage();
         }
+    });
 
+    // Charger depuis le serveur (production uniquement)
+    async function loadBannerFromServer() {
         try {
-            const banner = JSON.parse(currentBanner);
-            console.log('📄 Bannière trouvée:', banner.title);
+            const userId = getUserId();
+            const response = await fetch(`${API_BASE}/api/banner/current?userId=${userId}`);
 
-            // Vérifier si la bannière a été fermée
-            if (banner.closed) {
-                console.log('🚫 Bannière fermée par l\'utilisateur, pas d\'affichage');
+            if (!response.ok) {
+                console.log('ℹ️ Pas de bannière disponible sur le serveur');
                 return;
             }
 
-            // Vérifier s'il y a déjà une bannière affichée
+            const data = await response.json();
+
+            if (!data.banner) {
+                console.log('ℹ️ Aucune bannière active');
+                return;
+            }
+
+            if (data.userHasClosed) {
+                console.log('🚫 Bannière fermée par cet utilisateur');
+                return;
+            }
+
+            const banner = data.banner;
+            console.log('📄 Bannière serveur trouvée:', banner.title);
+
             if (document.querySelector('.event-banner')) {
                 console.log('⚠️ Bannière déjà présente, abandon');
                 return;
             }
 
-            // NOUVELLE MÉTHODE: Attendre Font Awesome avec plusieurs vérifications
+            waitForFontAwesome().then((fontAwesomeLoaded) => {
+                createAndShowBanner(banner, fontAwesomeLoaded);
+            });
+
+        } catch (error) {
+            console.error('❌ Erreur lors du chargement depuis le serveur:', error);
+        }
+    }
+
+    // Charger depuis localStorage (local)
+    function loadBannerFromLocalStorage() {
+        const currentBanner = localStorage.getItem('currentBanner');
+        if (!currentBanner) {
+            console.log('ℹ️ Pas de bannière sauvegardée localement');
+            return;
+        }
+
+        try {
+            const banner = JSON.parse(currentBanner);
+            console.log('📄 Bannière locale trouvée:', banner.title);
+
+            if (banner.closed) {
+                console.log('🚫 Bannière fermée localement');
+                return;
+            }
+
+            if (document.querySelector('.event-banner')) {
+                console.log('⚠️ Bannière déjà présente, abandon');
+                return;
+            }
+
             waitForFontAwesome().then((fontAwesomeLoaded) => {
                 createAndShowBanner(banner, fontAwesomeLoaded);
             });
         } catch (error) {
-            console.error('❌ Erreur bannière:', error);
+            console.error('❌ Erreur bannière locale:', error);
         }
-    });
+    }
 
-    // Fonction améliorée pour attendre Font Awesome
+    // Fonction pour attendre Font Awesome
     function waitForFontAwesome() {
         return new Promise((resolve) => {
             console.log('🔍 Début détection Font Awesome...');
 
             let attempts = 0;
-            const maxAttempts = 50; // 5 secondes max
+            const maxAttempts = 50;
 
             function checkFontAwesome() {
                 attempts++;
 
-                // Méthode 1: Vérifier si le CSS Font Awesome est chargé
                 const faLinks = document.querySelectorAll('link[href*="font-awesome"], link[href*="fontawesome"]');
-                console.log(`Tentative ${attempts}: ${faLinks.length} liens Font Awesome trouvés`);
 
                 if (faLinks.length === 0) {
-                    console.log('❌ Aucun lien Font Awesome trouvé dans le DOM');
                     if (attempts >= maxAttempts) {
                         resolve(false);
                         return;
@@ -98,22 +191,16 @@ if (window.bannerLoaded) {
                     return;
                 }
 
-                // Méthode 2: Vérifier avec un élément de test
                 const testIcon = document.createElement('i');
                 testIcon.className = 'fa-solid fa-home';
-                testIcon.style.cssText = 'position: absolute; left: -9999px; top: -9999px; font-size: 16px;';
+                testIcon.style.cssText = 'position: absolute; left: -9999px; top: -9999px;';
                 document.body.appendChild(testIcon);
 
-                // Attendre un frame pour le rendu
                 requestAnimationFrame(() => {
                     const computedStyle = window.getComputedStyle(testIcon, '::before');
                     const fontFamily = window.getComputedStyle(testIcon).fontFamily;
                     const content = computedStyle.content;
 
-                    console.log(`Font Family: ${fontFamily}`);
-                    console.log(`Content: ${content}`);
-
-                    // Méthode 3: Vérifier plusieurs indicateurs
                     const hasCorrectFont = fontFamily.includes('Font Awesome') || fontFamily.includes('FontAwesome');
                     const hasContent = content && content !== 'none' && content !== '""' && content !== 'normal';
                     const hasWidth = testIcon.offsetWidth > 0;
@@ -127,19 +214,16 @@ if (window.bannerLoaded) {
                         console.log('⚠️ Timeout Font Awesome - utilisation des fallbacks');
                         resolve(false);
                     } else {
-                        console.log(`⏳ Font Awesome pas encore prêt (${attempts}/${maxAttempts})`);
                         setTimeout(checkFontAwesome, 100);
                     }
                 });
             }
 
-            // Démarrer la vérification
-            setTimeout(checkFontAwesome, 200); // Délai initial plus long
+            setTimeout(checkFontAwesome, 200);
         });
     }
 
     function createAndShowBanner(banner, fontAwesomeLoaded = true) {
-        // Vérifier une dernière fois qu'il n'y a pas déjà une bannière
         if (document.querySelector('.event-banner')) {
             console.log('⚠️ Bannière déjà présente dans le DOM, abandon');
             return;
@@ -170,7 +254,7 @@ if (window.bannerLoaded) {
         }) : '';
         const timeStr = banner.time || '';
 
-        // HTML simplifié
+        // HTML de la bannière
         const bannerHTML = `
             <div class="event-banner" style="
                 background: ${style.bg};
@@ -197,7 +281,6 @@ if (window.bannerLoaded) {
                     ` : ''}
 
                     <div style="flex: 1;">
-                        <!-- Titre avec date à côté -->
                         <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 8px;">
                             <h3 style="
                                 margin: 0;
@@ -244,7 +327,7 @@ if (window.bannerLoaded) {
                         ">${banner.message}</p>
 
                         ${banner.link ? `
-                            <a href="${banner.link}" style="
+                            <a href="${banner.link}" target="_blank" rel="noopener noreferrer" style="
                                 background: #c9a96e;
                                 color: #2a2a2a;
                                 padding: 8px 16px;
@@ -264,7 +347,6 @@ if (window.bannerLoaded) {
                         ` : ''}
                     </div>
 
-                    <!-- Bouton fermer -->
                     <button onclick="window.closeBanner(this)" style="
                         background: rgba(201, 169, 110, 0.1);
                         border: 1px solid rgba(201, 169, 110, 0.3);
@@ -302,14 +384,12 @@ if (window.bannerLoaded) {
             </style>
         `;
 
-        // Insertion avec protection anti-masquage
+        // Insertion et animation
         document.body.insertAdjacentHTML('afterbegin', bannerHTML);
         console.log('✅ Bannière insérée');
 
-        // FORCER l'affichage (contre tout conflit)
         const insertedBanner = document.querySelector('.event-banner');
         if (insertedBanner) {
-            // Style de protection
             insertedBanner.style.cssText += `
                 display: block !important;
                 visibility: visible !important;
@@ -326,22 +406,9 @@ if (window.bannerLoaded) {
                 insertedBanner.style.transform = 'translateY(0)';
                 console.log('✅ Animation terminée');
 
-                // Confirmation d'affichage
                 setTimeout(() => {
                     console.log(`✅ Bannière affichée avec ${fontAwesomeLoaded ? 'Font Awesome' : 'emojis fallback'}`);
                 }, 100);
-
-                // Double vérification après 1 seconde
-                setTimeout(() => {
-                    if (insertedBanner.style.display === 'none' || insertedBanner.style.visibility === 'hidden') {
-                        console.log('🚨 Bannière masquée après coup - correction...');
-                        insertedBanner.style.cssText += `
-                            display: block !important;
-                            visibility: visible !important;
-                            opacity: 1 !important;
-                        `;
-                    }
-                }, 1000);
             }, 100);
         }
     }
