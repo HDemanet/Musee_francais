@@ -71,6 +71,8 @@
             transform: translateY(-2px);
         }
         .btn-danger {
+            font-size: var(--text-base);
+            margin-bottom: 1rem;
             background: var(--french-red);
             color: white;
             padding: var(--spacing-sm) var(--spacing-md);
@@ -109,6 +111,7 @@
             font-weight: 500;
         }
         .logout-btn {
+            font-size: var(--text-base);
             position: absolute;
             top: var(--spacing-xl);
             right: var(--spacing-xl);
@@ -187,7 +190,7 @@
 
         <!-- Panel d'administration -->
         <div class="admin-panel" id="adminPanel">
-            <h1><i class="fa-solid fa-bullhorn"></i> Gestion des Bannières</h1>
+            <h1><i class="fa-solid fa-gear"></i> Gestion des Bannières</h1>
 
             <!-- Bannière actuelle -->
             <div id="currentBannerSection">
@@ -199,7 +202,7 @@
             </div>
 
             <!-- Formulaire nouvelle bannière -->
-            <h3>Créer/Modifier une bannière</h3>
+            <h3>Créer / modifier une bannière</h3>
             <form id="bannerForm">
                 <div class="form-group">
                     <label for="bannerType">Type de bannière :</label>
