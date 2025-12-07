@@ -399,7 +399,7 @@ function loadCurrentBannerLocal(displayDiv) {
 
 async function loadCurrentBannerAPI(displayDiv) {
     try {
-        const response = await fetch(`${API_BASE}/api/banner/current`);
+        const response = await fetch(`${API_BASE}/get-banner`);
         const data = await response.json();
 
         if (data.banner) {
@@ -474,7 +474,7 @@ async function saveBannerAPI(banner) {
             return;
         }
 
-        const response = await fetch(`${API_BASE}/api/admin/banner`, {
+        const response = await fetch(`${API_BASE}/create-banner`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -529,7 +529,7 @@ async function removeBanner() {
         try {
             const token = localStorage.getItem('adminToken');
 
-            const response = await fetch(`${API_BASE}/api/admin/banner/current`, {
+            const response = await fetch(`${API_BASE}/delete-banner`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -581,7 +581,7 @@ async function reopenBanner() {
         try {
             const token = localStorage.getItem('adminToken');
 
-            const response = await fetch(`${API_BASE}/api/admin/banner/reopen`, {
+            const response = await fetch(`${API_BASE}/reopen-banner`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
