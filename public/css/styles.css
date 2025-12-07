@@ -17,6 +17,8 @@
   --accent-gold-light: #d4b579;
   --french-blue: #2c5aa0;
   --french-red: #c1272d;
+  --accent-gold-dark: #b8956a;
+  --french-blue-light: #4a7bc8;
 
   /* Couleurs texte optimisées pour le contraste */
   --text-primary: #1a1a1a;
@@ -382,7 +384,8 @@ p {
 
 .btn-primary:hover,
 .btn-primary:focus {
-  background: var(--accent-gold-light);
+  background: var(--accent-gold-dark);
+  color: var(--text-white);
   transform: translateY(-2px);
   box-shadow: var(--shadow-soft);
 }
@@ -408,10 +411,10 @@ p {
 
 .btn-secondary:hover,
 .btn-secondary:focus {
-  background: transparent;
-  color: var(--primary-light);
+  background: var(--accent-gold);
+  color: var(--text-white);
   transform: translateY(-2px);
-  border: 2px solid var(--accent-gold-light);
+  border: 2px solid var(--accent-gold);
 }
 
 .hero-visual {
