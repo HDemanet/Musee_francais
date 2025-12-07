@@ -9,7 +9,7 @@ if (window.bannerLoaded) {
 
     // Détecter l'environnement
     const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const API_BASE = isProduction ? '' : 'http://localhost:3000';
+    const API_BASE = isProduction ? '/.netlify/functions' : 'http://localhost:8888/.netlify/functions';
 
     console.log(`🌐 Environnement détecté: ${isProduction ? 'PRODUCTION' : 'LOCAL'}`);
 
@@ -41,7 +41,7 @@ if (window.bannerLoaded) {
     async function markBannerAsClosedAPI() {
         try {
             const userId = getUserId();
-            const response = await fetch(`${API_BASE}/api/banner/close`, {
+            const response = await fetch(`${API_BASE}/close-banner`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ if (window.bannerLoaded) {
     async function loadBannerFromServer() {
         try {
             const userId = getUserId();
-            const response = await fetch(`${API_BASE}/api/banner/current?userId=${userId}`);
+            const response = await fetch(`${API_BASE}/get-banner?userId=${userId}`);
 
             if (!response.ok) {
                 console.log('ℹ️ Pas de bannière disponible sur le serveur');
