@@ -39,6 +39,9 @@ if (window.bannerLoaded) {
 
     // Marquer comme fermée en production (API)
     async function markBannerAsClosedAPI() {
+        // ✅ Vider le cache pour que la fermeture soit prise en compte immédiatement
+        localStorage.removeItem('bannerCache');
+
         try {
             const userId = getUserId();
             const response = await fetch(`${API_BASE}/close-banner`, {
@@ -103,6 +106,25 @@ if (window.bannerLoaded) {
     async function loadBannerFromServer() {
         try {
             const userId = getUserId();
+
+            // ✅ Vérifier le cache localStorage d'abord (valide 5 minutes)
+            const cached = localStorage.getItem('bannerCache');
+            if (cached) {
+                try {
+                    const { data, timestamp } = JSON.parse(cached);
+                    if (Date.now() - timestamp < 5 * 60 * 1000) {
+                        console.log('⚡ Bannière chargée depuis le cache');
+                        if (data.banner && !data.userHasClosed) {
+                            waitForFontAwesome().then(fa => createAndShowBanner(data.banner, fa));
+                        }
+                        return; // Pas d'appel API nécessaire
+                    }
+                } catch (e) {
+                    localStorage.removeItem('bannerCache'); // Cache corrompu, on efface
+                }
+            }
+
+            // Pas de cache valide → appel API normal
             const response = await fetch(`${API_BASE}/get-banner?userId=${userId}`);
 
             if (!response.ok) {
@@ -111,6 +133,12 @@ if (window.bannerLoaded) {
             }
 
             const data = await response.json();
+
+            // ✅ Mettre en cache le résultat pour les prochaines visites
+            localStorage.setItem('bannerCache', JSON.stringify({
+                data,
+                timestamp: Date.now()
+            }));
 
             if (!data.banner) {
                 console.log('ℹ️ Aucune bannière active');
